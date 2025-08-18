@@ -21,14 +21,15 @@ var db s.Database
 
 func Router() *gin.Engine {
 	router := gin.Default()
-	host := "127.0.0.1:8080"
+
+	// Removed for better dev-exp
+	// allowedHosts: string[] ={
+	// 	"127.0.0.1:8080"
+	// 	"0.0.0.0:8080",
+	// 	"localhost:8080",
+	// }
 
 	router.Use(func(c *gin.Context) {
-		if c.Request.Host != host {
-			c.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"error": "Invalid Host"})
-			return
-		}
-
 		c.Header("X-Frame-Options", "DENY")
 		c.Header("Content-Security-Policy", "default-src 'self'; connect-src *; font-src *; script-src-elem * 'unsafe-inline'; img-src * data:; style-src * 'unsafe-inline';")
 		c.Header("X-XSS-Protection", "1; mode=block")
@@ -38,7 +39,7 @@ func Router() *gin.Engine {
 		c.Header("Permissions-Policy", "geolocation=(),midi=(),sync-xhr=(),microphone=(),camera=(),magnetometer=(),gyroscope=(),fullscreen=(self),payment=()")
 		c.Header("Access-Control-Allow-Origin", "*")
 		c.Header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS")
-		c.Header("Access-Control-Allow-Headers", "Content-Type, Authorization")
+		c.Header("Access-Control-Allow-Headers", "Content-Type, Authorization, Content-Length")
 		c.Next()
 	})
 
