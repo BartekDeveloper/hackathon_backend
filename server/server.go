@@ -75,22 +75,12 @@ func (this *Database) Close() {
 	// u.Info("Closing Database Connection")
 }
 
-// / (this *Database) Query(query string, rows *sql.Rows, args ...any) (cols []string, error error)
-func (this *Database) Query(query string, rows **sql.Rows, args ...any) (cols []string, err error) {
-	var _err error
+func (this *Database) Query(query string, args ...any) (*sql.Rows, error) {
+	return this.db.Query(query, args...)
+}
 
-	*rows, _err = this.db.Query(query, args...)
-	if _err != nil {
-		return nil, err
-	}
-
-	var _cols []string
-	_cols, _err = (*rows).Columns()
-	if _err != nil {
-		return nil, err
-	}
-
-	return _cols, nil
+func (this *Database) Exec(query string, args ...any) (sql.Result, error) {
+	return this.db.Exec(query, args...)
 }
 
 func IsURL_Index(r *http.Request) bool {

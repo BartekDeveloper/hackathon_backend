@@ -4,9 +4,13 @@
 # RUN
 
 ```bash
-    # run
-    go run .
+    # Run
+    air # you wont need to restart everytime you make change!
+```
 
-    # build
-    go build . -o hackathon
+# BUILD
+
+```bash
+    # Release Build
+    GIN_MODE=release go build .
 ```
